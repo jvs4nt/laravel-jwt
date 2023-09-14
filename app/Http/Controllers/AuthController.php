@@ -43,28 +43,53 @@ class AuthController extends Controller
     }
 
     public function register(Request $request){
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
+        //dd($request->request->all()); 
+        try{
+            $validator = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:6',
+                'cpf' => 'required|string|max:50',
+                'idade' => 'required|integer'
+            ]);
+    
+            $errors = null;
+                $dados = [
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'cpf' => $request->cpf,
+                    'idade' => $request->idade,
+                ];
+               // dd($dados);
+                $user = User::create($dados);
+    
+                $retorno = [
+                    'status' => true,
+                    'message' => 'User created successfully',
+                    'user' => $user,
+                    ];
+                    return response()->json($retorno);
+    
+             
+        } catch(\Exception $e)
+        
+         {
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+            $retorno = [
+                'status' => false,
+                'message' => 'erro ao cadastrar usuario',
+                'user' => null,
+                "error" => $e -> getMessage(),
+                ];
+                return response()->json($retorno);
+         }
+     
+         // Retrieve errors message bag
+         
 
-        $token = Auth::login($user);
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User created successfully',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
+        
+        return response()->json($retorno);
     }
 
     public function logout()
