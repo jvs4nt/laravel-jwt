@@ -113,26 +113,4 @@ class AuthController extends Controller
         ]);
     }
 
-    public function updateProfile(Request $request)
-    {
-        $user = Auth::user(); // Obtém o usuário logado
-
-        // Valide e atualize os campos do usuário
-        $request->validate([
-            'nome' => 'string|max:255',
-            'email' => 'string|email|max:255',
-            'cpf' => 'string|max:50',
-            'data' => 'date', // Ajuste de acordo com o tipo de data
-            'telefone' => 'string|max:20',
-            'genero' => 'string|max:255',
-            'estado' => 'string|max:255',
-            'cidade' => 'string|max:255',
-            'bairro' => 'string|max:255',
-        ]);
-
-        $user->update($request->all());
-
-        return response()->json(['message' => 'Dados atualizados com sucesso']);
-    }
-
 }

@@ -7,7 +7,7 @@ use App\Http\Controllers\TodoController;
 use App\Http\Controllers\PerfilController;
 
 Route::controller(AuthController::class)->group(function () {
-    Route::post('login', 'login');
+    Route::post('login', 'login')-> name("login");
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
@@ -22,4 +22,10 @@ Route::controller(TodoController::class)->group(function () {
     Route::delete('todo/{id}', 'destroy');
 }); 
 
-Route::post('/atualizar-perfil', 'PerfilController@atualizarPerfil');
+
+Route::group([
+   'middleware' => ['auth:api'] //, 'cors','api',
+    ], function($router) {
+Route::get('/recuperar-dados/{id}', 'App\Http\Controllers\RecuperarDadosController@recuperarDados');
+
+    });
