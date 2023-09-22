@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class RecuperarDadosController extends Controller
+class UserController extends Controller
 {
     public function __construct()
     {
@@ -21,5 +21,4 @@ class RecuperarDadosController extends Controller
     {
         return response()->json($id);
     }
-
 }

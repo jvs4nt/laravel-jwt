@@ -17,6 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/perfil/{id}', 'PerfilController@index')->name('perfil');
 
 
