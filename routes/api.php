@@ -24,6 +24,8 @@ Route::controller(TodoController::class)->group(function () {
 Route::group([
    'middleware' => ['auth:api'] //, 'cors','api',
     ], function($router) {
-Route::get('/recuperar-dados/{id}', 'App\Http\Controllers\UserController@recuperarDados');
+        Route::get('/user/recuperar/{id}', 'App\Http\Controllers\UserController@recuperar');
+        Route::post('/user/editar/{id}', 'App\Http\Controllers\UserController@editar');
+        Route::post('/user/cadastrar', 'App\Http\Controllers\UserController@cadastrar');
 
     });
